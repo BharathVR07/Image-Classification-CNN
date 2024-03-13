@@ -65,12 +65,8 @@ def create_string_buffer(init, size=None):
         return buf
     raise TypeError(init)
 
-def c_buffer(init, size=None):
-##    "deprecated, use create_string_buffer instead"
-##    import warnings
-##    warnings.warn("c_buffer is deprecated, use create_string_buffer instead",
-##                  DeprecationWarning, stacklevel=2)
-    return create_string_buffer(init, size)
+# Alias to create_string_buffer() for backward compatibility
+c_buffer = create_string_buffer
 
 _c_functype_cache = {}
 def CFUNCTYPE(restype, *argtypes, **kw):
@@ -96,15 +92,18 @@ def CFUNCTYPE(restype, *argtypes, **kw):
         flags |= _FUNCFLAG_USE_LASTERROR
     if kw:
         raise ValueError("unexpected keyword argument(s) %s" % kw.keys())
+
     try:
         return _c_functype_cache[(restype, argtypes, flags)]
     except KeyError:
-        class CFunctionType(_CFuncPtr):
-            _argtypes_ = argtypes
-            _restype_ = restype
-            _flags_ = flags
-        _c_functype_cache[(restype, argtypes, flags)] = CFunctionType
-        return CFunctionType
+        pass
+
+    class CFunctionType(_CFuncPtr):
+        _argtypes_ = argtypes
+        _restype_ = restype
+        _flags_ = flags
+    _c_functype_cache[(restype, argtypes, flags)] = CFunctionType
+    return CFunctionType
 
 if _os.name == "nt":
     from _ctypes import LoadLibrary as _dlopen
@@ -120,15 +119,18 @@ if _os.name == "nt":
             flags |= _FUNCFLAG_USE_LASTERROR
         if kw:
             raise ValueError("unexpected keyword argument(s) %s" % kw.keys())
+
         try:
             return _win_functype_cache[(restype, argtypes, flags)]
         except KeyError:
-            class WinFunctionType(_CFuncPtr):
-                _argtypes_ = argtypes
-                _restype_ = restype
-                _flags_ = flags
-            _win_functype_cache[(restype, argtypes, flags)] = WinFunctionType
-            return WinFunctionType
+            pass
+
+        class WinFunctionType(_CFuncPtr):
+            _argtypes_ = argtypes
+            _restype_ = restype
+            _flags_ = flags
+        _win_functype_cache[(restype, argtypes, flags)] = WinFunctionType
+        return WinFunctionType
     if WINFUNCTYPE.__doc__:
         WINFUNCTYPE.__doc__ = CFUNCTYPE.__doc__.replace("CFUNCTYPE", "WINFUNCTYPE")
 
@@ -364,14 +366,6 @@ class CDLL(object):
                 if '/' in name or '\\' in name:
                     self._name = nt._getfullpathname(self._name)
                     mode |= nt._LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR
-                # PATH is how DLL lookup has always worked in the past
-                # in Python on Windows. IMHO both the above mode flags
-                # are not wanted and cause many serious regressions within
-                # the conda ecosystem on Windows. We should however
-                # propagate any PATH changes that have happened to Python
-                # library and that is not yet implemented.
-                LOAD_WITH_ALTERED_SEARCH_PATH = 0x00000008
-                mode = LOAD_WITH_ALTERED_SEARCH_PATH
 
         class _FuncPtr(_CFuncPtr):
             _flags_ = flags
@@ -554,6 +548,7 @@ if _os.name == "nt": # COM stuff
         return ccom.DllCanUnloadNow()
 
 from ctypes._endian import BigEndianStructure, LittleEndianStructure
+from ctypes._endian import BigEndianUnion, LittleEndianUnion
 
 # Fill in specifically-sized types
 c_int8 = c_byte

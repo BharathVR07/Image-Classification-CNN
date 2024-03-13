@@ -1,5 +1,4 @@
 tensorflow
-tensorflow-cpu
 opencv-python
 matplotlib
 pandas
