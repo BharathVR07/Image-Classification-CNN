@@ -2,4 +2,5 @@ tensorflow
 opencv-python
 matplotlib
 pandas
+ipykernel
 numpy
