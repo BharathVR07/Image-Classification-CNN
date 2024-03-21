@@ -1,6 +1,6 @@
 ### End to End Image Classification CNN Project using Mlflow DVC
 
-### Workflow
+### Workflows
 
 1. update config.yaml
 2. update secret.yaml [optional]

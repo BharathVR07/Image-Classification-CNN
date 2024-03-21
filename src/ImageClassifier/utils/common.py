@@ -1,5 +1,4 @@
 import os
-from box.exceptions import BoxException
 import yaml
 from src.ImageClassifier import logger
 import json
@@ -31,9 +30,6 @@ def read_yaml(path_to_yaml : Path) -> ConfigBox:
             content = yaml.safe_load(yaml_file)
             logger.info(f'yaml file {path_to_yaml} loaded successfully..')
             return ConfigBox(content)
-        
-    except BoxException:
-        raise ValueError("yaml file is empty")
     except Exception as e:
         raise e
 
@@ -46,7 +42,7 @@ def create_directories(path_to_directories: list, verbose=True):
         path_to_directories (list): list of path of directories
     """
     for path in path_to_directories:
-        os.makedirs(path, exists_ok=True)
+        os.makedirs(path, exist_ok=True)
         if verbose:
             logger.info(f"Created directory at {path}")
 
