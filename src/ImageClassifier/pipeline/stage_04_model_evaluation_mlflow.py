@@ -1,5 +1,5 @@
 from src.ImageClassifier.config.configuration import ConfigurationManager
-from src.ImageClassifier.components.model_evaluation_mlflow import Evaluation
+from src.ImageClassifier.components.model_evaluation import Evaluation
 from src.ImageClassifier import logger
 
 STAGE_NAME = "Evaluation stage"

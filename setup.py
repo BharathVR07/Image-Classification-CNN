@@ -7,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 __version__ = "0.0.0"
 
 REPO_NAME = "Image-Classification-CNN"
-AUTHOR_USER_NAME = "bharath"
+AUTHOR_USER_NAME = "BharathVR07"
 SRC_REPO = "ImageClassifier"
 AUTHOR_EMAIL = "bharathvr07@gmail.com"
 
