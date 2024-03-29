@@ -3,7 +3,7 @@ import tensorflow as tf
 from pathlib import Path
 from src.ImageClassifier.entity.config_entity import TrainingConfig 
 
-class Traning:
+class Training:
     def __init__(self, config: TrainingConfig):
         self.config = config
 

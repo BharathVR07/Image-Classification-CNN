@@ -119,10 +119,10 @@ def get_size(path: Path) -> str:
     size_in_kb = round(os.path.getsize(path)/1024)
     return f" ~ {size_in_kb} KB"
 
-def decodeImage(img, filename):
-    imgdata = base64.b64decode(img)
-    with open(filename, 'wb') as f:
-        f.write(f)
+def decodeImage(imgstring, fileName):
+    imgdata = base64.b64decode(imgstring)
+    with open(fileName, 'wb') as f:
+        f.write(imgdata)
         f.close()
 
 def encodeImageIntoBase64(croppedImagePath):

@@ -1,4 +1,4 @@
-### End to End Image Classification CNN Project using Mlflow DVC
+### End to End Image Classification CNN Project using Mlflow
 
 ### Workflows
 
@@ -10,4 +10,3 @@
 6. update the components
 7. update the pipeline
 8. update the main.py
-9. update the dvc.yaml
